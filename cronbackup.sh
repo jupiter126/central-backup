@@ -1,11 +1,14 @@
 #!/bin/ksh
 . backup.conf
 directory=$(pwd)
+echo "directory=$directory"
 
 #backup files
-rsync --stats -haEz -e "ssh -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | grep "Total bytes received:"
+echo "$directory files" >> $directory/report.log
+rsync --stats -haEz -e "ssh -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | grep "Total bytes received:" | tee -a $directory/report.log 2>>$directory/error.log
 #backup DB
-rsync --stats -aEz -e "ssh -i $directory/.ssh/id_rsa" $remuser@$rhost:$db_dir $directory/db/ | grep "Total bytes received:"
+echo "$directory DB" >> $directory/report.log
+rsync --stats -aEz -e "ssh -i $directory/.ssh/id_rsa" $remuser@$rhost:$db_dir $directory/db/ | grep "Total bytes received:" | tee -a $directory/report.log 2>>$directory/error.log
 
 #clean files every month's first
 if [ $(date +%d) = "01" ]; then

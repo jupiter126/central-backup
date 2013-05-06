@@ -25,11 +25,12 @@ $nano backup.conf # and put the following 3 lines:
 files_dir=/var/www #where the files are on the server
 db_dir="/home/myuser/DBBackup" #where the db dumps are on the server
 rhost=10.0.0.1 #IP/hostname of the server
+remuser=mydbbackupuser #name of user to login on server
 #######################################
 
 Linux server
 On the server we want to backup, create a user to make the database backups and add dbbackup.sh to his home directory
 Open this file and set your sql user and password.
-If mutt and rar are installed and configured, you can choose sendemail=yes, set recipients and a rar password (I use rar as an easy way to split and password protect the archives)
+If mutt and rar are installed and configured, you can choose sendemail="Yes", set recipients and a rar password (I use rar as an easy way to split and password protect the archives)
 
 Improvements are to be done yet (email reports, and push update features for example) to make this script more user friendly, however I won't include any advanced options (like exclude), to keep it user friedly!
