@@ -25,7 +25,6 @@ for server in $(ls /home)
 do
         if [ -f /home/$server/backup.sh ] && [ -f /home/$server/backup.conf ] && [ "$(cat /home/$server/report.log)" != "" ] ; then
 			cat /home/$server/report.log >> /root/report.log
-			rm /home/$server/report.log
         fi
 done
 echo "-------------------------------------------------------------------" >> /root/report.log
@@ -35,7 +34,6 @@ for server in $(ls /home)
 do
         if [ -f /home/$server/backup.sh ] && [ -f /home/$server/backup.conf ] && [ "$(cat /home/$server/db/db-report.log)" != "" ] ; then
 		cat /home/$server/db/db-report.log >> /root/report.log
-		rm /home/$server/db/db-report.log
         fi
 done
 echo "-------------------------------------------------------------------" >> /root/report.log
