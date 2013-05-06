@@ -9,6 +9,7 @@ files:
 /home/$server/backup.sh - OpenBSD - symbolic link to /usr/local/bin/cronbackup.sh
 /usr/local/cronbackup.sh - OpenBSD - the core sync script - Loads settings from the users backup.conf, rsyncs files and db, archive and clean monthly
 /home/$backupuser/dbbackup.sh - Linux Webserver - The script that backs up the databases
+/home/$backupuser/dbbackup.conf - Linux Webserver - conf for the linux dbbackup script
 
 Installation:
 put /root/cronbackup_launcher.sh on the OpenBSD - add it to cron daily
