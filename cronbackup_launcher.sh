@@ -5,16 +5,16 @@ echo "Sync started on $(uname -n), the $(date +%Y%m%d) at $(date +%R)" > /root/r
 
 for server in $(ls /home)
 do
-        if [ -f /home/$server/backup.sh ]; then
-                if [ -f /home/$server/backup.conf ]; then
-                        echo "Patience: running /home/$server/backup.sh as $server"
-                        sudo -Hiu $server /home/$server/backup.sh
-                else
-                        echo "/home/$server/backup.sh found, but /home/$server/backup.conf is missing skipping"
-                fi
-        else
-                echo "/home/$server/backup.sh not found, skipping"
-        fi
+	if [ -f /home/$server/backup.sh ]; then
+		if [ -f /home/$server/backup.conf ]; then
+			echo "Patience: running /home/$server/backup.sh as $server"
+			sudo -Hiu $server /home/$server/backup.sh
+		else
+			echo "/home/$server/backup.sh found, but /home/$server/backup.conf is missing skipping"
+		fi
+	else
+		echo "/home/$server/backup.sh not found, skipping"
+	fi
 done
 
 #generate report - customise at your needs
