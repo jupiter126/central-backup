@@ -39,5 +39,5 @@ Improvements are to be done yet (email reports, and push update features for exa
 
 Changelist:
 email reports --> done
-push updates  --> done
+push updates  --> done - to protect a file against upgrades on a particular server, set a high version number.  It won't be replaced until the BSD's version number is greater
 started archiving in cronbackup.sh

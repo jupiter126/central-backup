@@ -7,7 +7,7 @@ echo "########################################" > $directory/report.log
 echo "Report of $selsite" >> $directory/report.log
 echo "########################################" >> $directory/report.log
 echo "Files sync:" >> $directory/report.log
-rsync --stats -haEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
+rsync --stats -LhaEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
 #backup DB
 echo "----------------------------------------" >> $directory/report.log
 echo "DB sync:" >> $directory/report.log
@@ -22,24 +22,34 @@ else echo
 fi
 #clean files every month's first
 if [ $(date +%d) = "10" ]; then
-	if [ ! -d $directory/archive/files/ ]; then
-		mkdir -p $directory/archive/files/ $directory/archive/db/temp
-	fi
-	echo "Patience, creating $selsite archive"
-	gtar -czf archive/files/$selsite-$(date +%F).tar.gz files #make a monthly archive of the site's files
+	for sitecode in $(ls files/)
+	do
+		if [ ! -d $directory/archive/files/$sitecode ]; then
+			mkdir -p $directory/archive/files/$sitecode $directory/archive/db/temp
+		fi
+		echo "Patience, creating $selsite : $sitecode archive"
+		gtar -czf archive/files/$sitecode/$sitecode-$(date +%F).tar.gz files/$sitecode #make a monthly archive of the site's files
+	done
+
 	for datab in $(ls $directory/db/DBBackup/)
 	do
 		cp $directory/db/DBBackup/$datab/$(ls -t $directory/db/DBBackup/$datab/ | head -n 1) $directory/archive/db/temp/
 	done
 	gtar -czf archive/db/$selsite-$(date +%F.tar.gz) archive/db/temp/
 	rm $directory/archive/db/temp/*
-	for category in db files
+	
+	if [ "$(ls $directory/archive/db/ | wc -l)" -gt "15" ]; then
+		echo "cleaning db"
+		cd $directory/archive/db/ && ls -t | sed '1,15d' | xargs rm && cd $directory
+	fi
+
+	for sites in $(ls $directory/archive/files/)
 	do
-		if [ "$(ls $directory/archive/$category/ | wc -l)" -gt "15" ]; then
-			echo "cleaning $category"
-			cd $directory/archive/$category/ && ls -t | sed '1,15d' | xargs rm && cd $directory
+		if [ "$(ls $directory/archive/files/$sites/ | wc -l)" -gt "15" ]; then
+		echo "cleaning db"
+		cd $directory/archive/files/$sites/ && ls -t | sed '1,15d' | xargs rm && cd $directory
 		fi
 	done
-	rsync --stats --delete -haEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
+	rsync --stats --delete -LhaEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
 	rsync --stats --delete -haEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$db_dir $directory/db/ | tee -a $directory/report.log 2>>$directory/error.log
 fi
