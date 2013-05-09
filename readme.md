@@ -40,3 +40,4 @@ Improvements are to be done yet (email reports, and push update features for exa
 Changelist:
 email reports --> done
 push updates  --> done
+started archiving in cronbackup.sh
