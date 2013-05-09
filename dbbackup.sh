@@ -55,7 +55,7 @@ if [ "$sendemail" = "Yes" ]; then
         echo "Data compression and mail sending... PATIENCE... "
         rar a $directory/complete-$daate-db.rar -rv4 -m5 -Hp$mdprar -v9500k $directory/tmpmail/*
         echo "compression done"
-        for k in $(ls|grep $directory/complete-$daate-db)
+        for k in $(ls $directory |grep complete-$daate-db)
         do
                 echo "sending $k by mail" && echo "$k db" > $directory/maildb.txt
 		if [ "$(echo $k|grep -v "part2")|grep -v "part3"|grep -v "part4"|grep -v "part5"|grep -v "part6"|grep -v "part7"|grep -v "part8"|grep -v "part9"|grep -v "part10"|grep -v "part11"|grep -v "part12"|grep -v "part13"|grep -v "part14"|grep -v "part15"|grep -v "part16"|grep -v "part17"|grep -v "part18"|grep -v "part19"|grep -v "part20"" != "" ]; then 
