@@ -8,6 +8,7 @@ files:
 /home/$server/backup.conf - OpenBSD - Configuration for that server (1 user/server to backup*)
 /home/$server/backup.sh - OpenBSD - symbolic link to /usr/local/bin/cronbackup.sh
 /usr/local/cronbackup.sh - OpenBSD - the core sync script - Loads settings from the users backup.conf, rsyncs files and db, archive and clean monthly
+/var/dbbackup.sh - OpenBSD - cronbackup looks for this file, if the version number is greater than the one on the server, it will update the server's dbbackup (centralised updates). chown root and chmod 444 on that file.
 /home/$backupuser/dbbackup.sh - Linux Webserver - The script that backs up the databases
 /home/$backupuser/dbbackup.conf - Linux Webserver - conf for the linux dbbackup script
 
@@ -35,3 +36,7 @@ Open this file and set your sql user and password.
 If mutt and rar are installed and configured, you can choose sendemail="Yes", set recipients and a rar password (I use rar as an easy way to split and password protect the archives)
 
 Improvements are to be done yet (email reports, and push update features for example) to make this script more user friendly, however I won't include any advanced options (like exclude), to keep it user friedly!
+
+Changelist:
+email reports --> done
+push updates  --> done

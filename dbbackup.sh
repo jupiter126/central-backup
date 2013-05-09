@@ -1,5 +1,5 @@
 #!/bin/bash
-
+dbbackupversion=2
 # This is a simple mysql local backup script
 # It dumps databases in gzip, then adds ad password with rar and mail them once a day
 # It depends on rar and mutt (with a functionnal mail system)
