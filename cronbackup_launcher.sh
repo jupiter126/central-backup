@@ -18,24 +18,21 @@ do
 done
 
 #generate report - customise at your needs
-echo "-------------------------------------------------------------------" >> /root/report.log
-echo "Sync report" >> /root/report.log
-echo "-------------------------------------------------------------------" >> /root/report.log
 for server in $(ls /home)
 do
         if [ -f /home/$server/backup.sh ] && [ -f /home/$server/backup.conf ] && [ "$(cat /home/$server/report.log)" != "" ] ; then
-			cat /home/$server/report.log >> /root/report.log
+                        cat /home/$server/report.log >> /root/report.log
         fi
 done
 echo "-------------------------------------------------------------------" >> /root/report.log
 echo "DB report" >> /root/report.log
 echo "-------------------------------------------------------------------" >> /root/report.log
-for server in $(ls /home)
-do
-        if [ -f /home/$server/backup.sh ] && [ -f /home/$server/backup.conf ] && [ "$(cat /home/$server/db/db-report.log)" != "" ] ; then
-		cat /home/$server/db/db-report.log >> /root/report.log
-        fi
-done
+#for server in $(ls /home)
+#do
+#        if [ -f /home/$server/backup.sh ] && [ -f /home/$server/backup.conf ] && [ "$(cat /home/$server/db/db-report.log)" != "" ] ; then
+#               cat /home/$server/db/db-report.log >> /root/report.log
+#        fi
+#done
 echo "-------------------------------------------------------------------" >> /root/report.log
 echo "Drives log" >> /root/report.log
 echo "-------------------------------------------------------------------" >> /root/report.log
@@ -50,4 +47,5 @@ echo "-------------------------------------------------------------------" >> /r
 echo "Sync and report finished on $(uname -n), the $(date +%Y%m%d) at $(date +%R)" >>/root/report.log
 echo "-------------------------------------------------------------------" >> /root/report.log
 
+echo "Patience, sending mail..."
 cat /root/report.log | mail -s "Backup Report $(date)" jupiter126@gmail.com
