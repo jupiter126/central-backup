@@ -50,6 +50,7 @@ if [ $(date +%d) = "10" ]; then
 		cd $directory/archive/files/$sites/ && ls -t | sed '1,15d' | xargs rm && cd $directory
 		fi
 	done
-	rsync --stats --delete -LhaEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
-	rsync --stats --delete -haEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$db_dir $directory/db/ | tee -a $directory/report.log 2>>$directory/error.log
+	echo "synching with --delete"
+	rsync --delete -qLhaEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$files_dir $directory/files/ | tee -a $directory/report.log 2>>$directory/error.log
+	rsync --delete -qhaEz -e "ssh -p $dport -i $directory/.ssh/id_rsa" $remuser@$rhost:$db_dir $directory/db/ | tee -a $directory/report.log 2>>$directory/error.log
 fi
